@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" // Ou outro banco, como "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  email    String   @unique
+  senha    String
+  senha_salt       String?      @db.VarChar(255)
+  resetToken       String?      @default("") @db.VarChar(255)
+  resetTokenExpiry DateTime?    @default(now())
+  leitor   Leitor?
+  autor    Autor?
+}
+
+model Leitor {
+  id           Int       @id @default(autoincrement())
+  usuarioId     Int    @unique
+  usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  biblioteca   MeuLivro[]
+}
+
+model Autor {
+  id                Int       @id @default(autoincrement())
+  mediaAvaliacoes   Float?
+
+  usuarioId     Int    @unique
+  
+  usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  livrosCriados     Livro[]
+  
+}
+
+model Livro {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  autor       Autor     @relation(fields: [autorId], references: [id])
+  autorId     Int
+  dataCriacao DateTime  @default(now())
+  categoria   Categoria
+  avaliacoes  MeuLivro[]
+}
+
+model MeuLivro {
+  id        Int      @id @default(autoincrement())
+  leitor    Leitor   @relation(fields: [leitorId], references: [id])
+  leitorId  Int
+  livro     Livro    @relation(fields: [livroId], references: [id])
+  livroId   Int
+  avaliacao Int
+  status    Tipo
+}
+
+enum Tipo {
+    FAVORITO
+    DESEJO
+}
+
+enum Categoria {
+    DRAMA
+    SUSPENSE
+    ACAO
+    COMEDIA
+    ROMANCE
+}
