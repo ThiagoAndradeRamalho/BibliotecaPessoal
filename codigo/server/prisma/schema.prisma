@@ -28,7 +28,7 @@ model Leitor {
 
 model Autor {
   id                Int       @id @default(autoincrement())
-  mediaAvaliacoes   Float?
+  mediaAvaliacoes   Int?
 
   usuarioId     Int    @unique
   
@@ -54,8 +54,8 @@ model MeuLivro {
   leitorId  Int
   livro     Livro    @relation(fields: [livroId], references: [id])
   livroId   Int
-  avaliacao Int
-  status    Tipo
+  avaliacao Int?
+  status    Tipo?
 }
 
 enum Tipo {
