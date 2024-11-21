@@ -34,9 +34,9 @@ class LivroService {
     try {
       const livro = await prismaClient.livro.create({
         data: {
-          titulo: data.titulo,
+          nome: data.nome,
           autorId: data.autorId,
-          categoriaId: data.categoriaId,
+          categoria: data.categoria,
         },
       });
       return livro;
@@ -47,10 +47,16 @@ class LivroService {
   }
 
   async updateLivro(id, data) {
+
+    const l = await this.getLivroById(id)
+
     try {
       const livro = await prismaClient.livro.update({
         where: { id },
-        data,
+        data: {
+          nome: data.nome || l.nome,
+          categoria: data.categoria || l.categoria,
+        }
       });
       return livro;
     } catch (error) {

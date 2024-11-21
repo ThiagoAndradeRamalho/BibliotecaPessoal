@@ -24,7 +24,7 @@ CREATE TABLE `Leitor` (
 -- CreateTable
 CREATE TABLE `Autor` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `mediaAvaliacoes` DOUBLE NULL,
+    `mediaAvaliacoes` INTEGER NULL,
     `usuarioId` INTEGER NOT NULL,
 
     UNIQUE INDEX `Autor_usuarioId_key`(`usuarioId`),
@@ -47,8 +47,8 @@ CREATE TABLE `MeuLivro` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `leitorId` INTEGER NOT NULL,
     `livroId` INTEGER NOT NULL,
-    `avaliacao` INTEGER NOT NULL,
-    `status` ENUM('FAVORITO', 'DESEJO') NOT NULL,
+    `avaliacao` INTEGER NULL,
+    `status` ENUM('FAVORITO', 'DESEJO') NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

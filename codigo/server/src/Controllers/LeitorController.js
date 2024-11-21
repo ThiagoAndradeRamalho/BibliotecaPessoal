@@ -1,6 +1,6 @@
 import LeitorService from '../services/LeitorService.js';
 
-class LeitorController {
+export class LeitorController {
   async getAll(req, res) {
     try {
       const leitores = await LeitorService.getAllLeitores();
@@ -59,4 +59,3 @@ class LeitorController {
   }
 }
 
-export default new LeitorController();

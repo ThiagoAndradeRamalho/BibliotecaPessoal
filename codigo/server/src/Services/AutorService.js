@@ -56,10 +56,22 @@ class AutorService {
   }
 
   async updateAutor(id, data) {
+
+    const a = await this.getAutorById(id);
+
+
     try {
       const autor = await prismaClient.autor.update({
         where: { id },
-        data,
+        data: {
+          mediaAvaliacoes: data.mediaAvaliacoes || a.mediaAvaliacoes,
+          usuario: {
+            update: {
+              nome: data.nome || a.usuario.nome,
+              email: data.email || a.usuario.email,
+            },
+          },
+        }
       });
       return autor;
     } catch (error) {

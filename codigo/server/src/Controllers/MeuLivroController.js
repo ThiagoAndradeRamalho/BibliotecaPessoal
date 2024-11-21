@@ -1,6 +1,6 @@
-import MeuLivroService from '../services/MeuLivroService.js';
+import { MeuLivroService } from '../services/MeuLivroService.js';
 
-class MeuLivroController {
+export class MeuLivroController {
   async getAll(req, res) {
     try {
       const meuLivros = await MeuLivroService.getAllMeuLivros();
@@ -46,5 +46,3 @@ class MeuLivroController {
     }
   }
 }
-
-export default new MeuLivroController();

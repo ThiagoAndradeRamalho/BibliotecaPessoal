@@ -1,9 +1,9 @@
 import { prismaClient } from '../database/prismaClient.js';
 
-class MeuLivroService {
+export class MeuLivroService {
   async getAllMeuMeuLivros() {
     try {
-      const meuLivros = await prismaClient.MeuLivro.findMany({
+      const meuLivros = await prismaClient.meuLivro.findMany({
         include: {
           leitor: true,
           livro: true,
@@ -18,7 +18,7 @@ class MeuLivroService {
 
   async getMeuLivroById(id) {
     try {
-      const meuLivro = await prismaClient.MeuLivro.findUnique({
+      const meuLivro = await prismaClient.meuLivro.findUnique({
         where: { id },
         include: {
           leitor: true,
@@ -34,7 +34,7 @@ class MeuLivroService {
 
   async createMeuLivro(data) {
     try {
-      const meuLivro = await prismaClient.MeuLivro.create({
+      const meuLivro = await prismaClient.meuLivro.create({
         data: {
           autorId: data.autorId,
           leitorId: data.leitorId,
@@ -55,7 +55,7 @@ class MeuLivroService {
       const meuLivro = await this.getMeuLivroById(id);
       if (!meuLivro) throw new Error('Meu Livro não encontrado.');
 
-      await prismaClient.MeuLivro.delete({
+      await prismaClient.meuLivro.delete({
         where: { id },
       });
 
@@ -67,4 +67,3 @@ class MeuLivroService {
   }
 }
 
-export default new MeuLivroService();

@@ -56,10 +56,20 @@ class LeitorService {
   }
 
   async updateLeitor(id, data) {
+
+    const leitor = await this.getLeitorById(id);
+
     try {
       const leitor = await prismaClient.leitor.update({
         where: { id },
-        data,
+        data: {
+          usuario: {
+            update: {
+              nome: data.nome || leitor.usuario.nome,
+              email: data.email || leitor.usuario.email,
+            },
+          },
+        }
       });
       return leitor;
     } catch (error) {

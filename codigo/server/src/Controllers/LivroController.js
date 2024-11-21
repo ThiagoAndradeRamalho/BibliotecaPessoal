@@ -1,6 +1,6 @@
 import LivroService from '../services/LivroService.js';
 
-class LivroController {
+export class LivroController {
   async getAll(req, res) {
     try {
       const livros = await LivroService.getAllLivros();
@@ -58,5 +58,3 @@ class LivroController {
     }
   }
 }
-
-export default new LivroController();
