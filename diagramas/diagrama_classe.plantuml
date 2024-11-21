@@ -1,0 +1,50 @@
+@startuml Biblioteca Pessoal Classe
+    class Usuario {
+        - Integer id
+        - String nome
+        - String email
+        - String senha
+    }
+
+    class Leitor {
+        - Integer id
+    }
+
+    class Autor {
+        - Integer id
+
+        + Integer mediaAvaliacao()
+        + Integer seguidores()
+    }
+
+    class Livro {
+        - Integer id
+        - String nome
+        - DateTime dataCriacao
+        - String categoria
+
+        + Integer mediaAvaliacao()
+        + void buscaByAutor()
+        + void notificarSeguidores()
+        + Livro[] buscaByCategoria()
+    }
+
+    class MeuLivro {
+        - Integer id
+        - Integer avaliacao
+        - String status
+
+        + Livro[] buscaByAvaliacao()
+        + Livro[] buscaByStatus()
+        + Livro[] buscaByCategoria()
+        
+    }
+
+    Usuario <|-- Leitor
+    Usuario <|-- Autor
+
+    MeuLivro "0..*" -- "1" Livro
+    Autor "1" -- "0..*"  Livro
+    MeuLivro "0..*" -- "1" Leitor
+
+@enduml

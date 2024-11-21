@@ -1,0 +1,34 @@
+@startuml Biblioteca Pessoal Caso Uso
+
+
+    :Usuario: as u
+    :Leitor: as l
+    :Autor: as a
+    :Notificador: as n
+
+    u <|-- l
+    u <|--- a
+
+    rectangle BibliotecaPessoal {
+        usecase "logar" as UC1
+        usecase "gerenciar bilioteca" as UC2
+        usecase "avaliar livro" as UC3
+        usecase "avaliar autor" as UC4
+        usecase "marcar livro" as UC5
+        usecase "seguir autor" as UC6
+        usecase "gerenciar livro" as UC7
+        usecase "notificar livro" as UC8
+    }
+
+    u - UC1
+    l - UC2
+    l ----- UC3
+    l ---- UC4
+    l -- UC5
+    l -- UC6
+    a --- UC7
+    n -- UC8
+    UC7 --> UC8 #black;line.dashed : include
+    UC6 --> UC8 #black;line.dashed : extend
+
+@enduml Biblioteca Pessoal Caso Uso
