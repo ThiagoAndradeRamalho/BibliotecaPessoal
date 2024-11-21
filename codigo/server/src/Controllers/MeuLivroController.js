@@ -1,4 +1,4 @@
-import MeuLivroService from '../Services/MeuLivroService.js';
+import MeuLivroService from '../services/MeuLivroService.js';
 
 class MeuLivroController {
   async getAll(req, res) {

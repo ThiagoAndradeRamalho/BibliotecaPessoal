@@ -1,4 +1,4 @@
-import LeitorService from '../Services/LeitorService.js';
+import LeitorService from '../services/LeitorService.js';
 
 class LeitorController {
   async getAll(req, res) {

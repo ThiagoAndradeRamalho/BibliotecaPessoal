@@ -1,6 +1,6 @@
-import AutorService from '../Services/AutorService.js';
+import AutorService from '../services/AutorService.js';
 
-class AutorController {
+export class AutorController {
   async getAll(req, res) {
     try {
       const autores = await AutorService.getAllAutores();
@@ -58,5 +58,3 @@ class AutorController {
     }
   }
 }
-
-export default new AutorController();
