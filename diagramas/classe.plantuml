@@ -31,7 +31,7 @@
 
     class MeuLivro {
         - Integer id
-        - Integer avaliacao
+        - Integer avaliacaoD
         - String status
 
         + Livro[] buscaByAvaliacao()

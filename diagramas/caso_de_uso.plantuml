@@ -1,6 +1,7 @@
 @startuml Biblioteca Pessoal Caso Uso
 
-
+    left to right direction
+    
     :Usuario: as u
     :Leitor: as l
     :Autor: as a
@@ -27,8 +28,8 @@
     l -- UC5
     l -- UC6
     a --- UC7
-    n -- UC8
+    n -right- UC8
     UC7 --> UC8 #black;line.dashed : include
     UC6 --> UC8 #black;line.dashed : extend
 
-@enduml Biblioteca Pessoal Caso Uso
+@enduml
