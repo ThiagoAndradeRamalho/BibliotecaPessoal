@@ -30,6 +30,47 @@ class LivroService {
     }
   }
 
+  async getLivrosByCategoria(id, data) {
+    try {
+      const livro = await prismaClient.livro.findUnique({
+        where: { id },
+        include: {
+          autor: true,
+        },
+      });
+      return livro;
+    } catch (error) {
+      console.error('Erro ao buscar livro', error);
+      throw new Error('Não foi possível buscar o livro.');
+    }
+  }
+
+  async updateAvaliacao(id) {
+    try {
+      const livros = await prismaClient.livro.findMany();
+
+      for (const livro of livros) {
+        const avaliacoes = await prismaClient.meuLivro.findMany({
+          where: { livroId: id },
+          select: { avaliacao: true },
+        });
+
+        const avaliacaoValida = avaliacoes.filter(a => a.avaliacao !== null);
+        const media =
+          avaliacaoValida.reduce((acc, curr) => acc + curr.avaliacao, 0) /
+          avaliacaoValida.length;
+
+        await prismaClient.livro.update({
+          where: { id: livro.id },
+          data: { mediaAvaliacoes: media || 0 }, // Defina 0 para livros sem avaliação
+        });
+      }
+    } catch (error) {
+      console.error(error)
+      throw new Error('Não foi possível atualizar a avaliação.');
+    }
+  }
+
   async createLivro(data) {
     try {
       const livro = await prismaClient.livro.create({

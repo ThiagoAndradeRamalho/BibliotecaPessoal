@@ -48,6 +48,17 @@ export class AutorController {
     }
   }
 
+  async avaliar(req, res) {
+    try {
+      console.log("chamando")
+      const data = req.body;
+      const avaliacao = await AutorService.avaliarAutor(data);
+      res.status(200).json({ message: 'Autor avaliado com sucesso!', avaliacao });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
   async delete(req, res) {
     try {
       const { id } = req.params;

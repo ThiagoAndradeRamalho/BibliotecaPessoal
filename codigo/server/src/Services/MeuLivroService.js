@@ -1,9 +1,10 @@
 import { prismaClient } from '../database/prismaClient.js';
 
-export class MeuLivroService {
-  async getAllMeuMeuLivros() {
+class MeuLivroService {
+  async getAllMeusLivros(id) {
     try {
       const meuLivros = await prismaClient.meuLivro.findMany({
+        where: { leitorId: id },
         include: {
           leitor: true,
           livro: true,
@@ -12,7 +13,7 @@ export class MeuLivroService {
       return meuLivros;
     } catch (error) {
       console.error('Erro ao buscar meus livros', error);
-      throw new Error('Não foi possível buscar meu livros.');
+      throw new Error('Não foi possível buscar meu livross.');
     }
   }
 
@@ -32,21 +33,64 @@ export class MeuLivroService {
     }
   }
 
+  async getMeusLivrosByStatus(id, data) {
+    try {
+      console.log(data.status)
+      const meuLivros = await prismaClient.meuLivro.findMany({
+        where: {
+          AND: [
+            { leitorId: id },
+            { status: data.status },
+          ],
+        },
+        include: {
+          leitor: true,
+          livro: true,
+        },
+      });
+      if (!meuLivros) throw new Error(`Livros com o status {data.status} nao encontrado.`, data.status);
+      return meuLivros;
+    } catch (error) {
+      console.error('Erro ao buscar meus livros por status', error);
+      throw new Error('Não foi possível buscar meus livros.');
+    }
+  }
+
   async createMeuLivro(data) {
     try {
       const meuLivro = await prismaClient.meuLivro.create({
         data: {
-          autorId: data.autorId,
           leitorId: data.leitorId,
           livroId: data.livroId,
-          avaliacao: data.anoPublicacao,
-          quantidadeEstoque: data.quantidadeEstoque,
+          status: "DESEJO",
         },
       });
       return meuLivro;
     } catch (error) {
       console.error('Erro ao criar meu livro', error);
       throw new Error('Não foi possível criar o meu livro.');
+    }
+  }
+
+  async avaliarLivro(data) {
+    try {
+
+      const meuLivro = await this.getMeuLivroById(data.meuLivroId)
+      
+      if (!meuLivro) throw new Error('Meu Livro não encontrado.');
+
+      meuLivro.avaliacao = data.avaliacao;
+      const livroAtt = await prismaClient.meuLivro.update({
+        where: { id: meuLivro.id },
+        data: {
+          avaliacao: parseInt(data.avaliacao),
+        }
+      });
+      return livroAtt;
+      
+    } catch (error) {
+      console.error(error);
+      throw new Error('Não foi possível avaliar o livro.');
     }
   }
 
@@ -66,4 +110,6 @@ export class MeuLivroService {
     }
   }
 }
+
+export default new MeuLivroService();
 

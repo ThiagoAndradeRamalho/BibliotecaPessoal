@@ -24,11 +24,13 @@ model Leitor {
   usuarioId     Int    @unique
   usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   biblioteca   MeuLivro[]
+  avaliacao   AvaliacaoAutor[]
 }
 
 model Autor {
   id                Int       @id @default(autoincrement())
   mediaAvaliacoes   Int?
+  avaliacao   AvaliacaoAutor[]
 
   usuarioId     Int    @unique
   
@@ -46,6 +48,7 @@ model Livro {
   dataCriacao DateTime  @default(now())
   categoria   Categoria
   avaliacoes  MeuLivro[]
+  mediaAvaliacoes Int?
 }
 
 model MeuLivro {
@@ -56,6 +59,16 @@ model MeuLivro {
   livroId   Int
   avaliacao Int?
   status    Tipo?
+}
+
+model AvaliacaoAutor {
+  id         Int      @id @default(autoincrement())
+  leitor     Leitor   @relation(fields: [leitorId], references: [id], onDelete: Cascade)
+  leitorId   Int
+  autor      Autor    @relation(fields: [autorId], references: [id], onDelete: Cascade)
+  autorId    Int
+  avaliacao  Int
+  dataCriacao DateTime @default(now())
 }
 
 enum Tipo {

@@ -80,6 +80,49 @@ class AutorService {
     }
   }
 
+  async avaliarAutor(data) {
+    try {
+      const avaliacao = await prismaClient.avaliacaoAutor.create({
+        data: {
+          leitorId: data.leitorId,
+          autorId: data.autorId,
+          avaliacao: data.avaliacao,
+        },
+      });
+
+      // Atualizar a média do autor após a avaliação
+      await this.atualizarMediaAvaliacoes(data.autorId);
+
+      return avaliacao;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Não foi possível registrar a avaliação do autor.');
+    }
+  }
+
+  async atualizarMediaAvaliacoes(autorId) {
+    try {
+      // Recuperar todas as avaliações do autor
+      const avaliacoes = await prismaClient.avaliacaoAutor.findMany({
+        where: { autorId },
+      });
+
+      // Calcular a média
+      const totalAvaliacoes = avaliacoes.length;
+      const somaAvaliacoes = avaliacoes.reduce((soma, item) => soma + item.avaliacao, 0);
+      const media = totalAvaliacoes > 0 ? Math.floor(somaAvaliacoes / totalAvaliacoes) : null;
+
+      // Atualizar a média no autor
+      await prismaClient.autor.update({
+        where: { id: autorId },
+        data: { mediaAvaliacoes: media },
+      });
+    } catch (error) {
+      console.error(error);
+      throw new Error('Não foi possível atualizar a média de avaliações do autor.');
+    }
+  }
+
   async deleteAutor(id) {
     try {
       const autor = await this.getAutorById(id);

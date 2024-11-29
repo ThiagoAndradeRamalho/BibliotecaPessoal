@@ -9,7 +9,7 @@ const livroController = new LivroController();
 router.get('/', livroController.getAll);
 router.get('/:id', livroController.getById);
 router.post('/', livroController.create);
-router.put('/:id', livroController.update);
+router.put('/avaliacoes/:id', livroController.updateAvaliacoes);
 router.delete('/:id', livroController.delete);
 
 export { router as LivroRoutes }
