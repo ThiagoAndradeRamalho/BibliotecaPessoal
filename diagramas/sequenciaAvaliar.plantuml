@@ -1,22 +1,22 @@
-@startuml
-actor leitor
-boundary FrontExibirAutor
-control "AS : Autor" as Autor
-database DataBase
+@startuml Biblioteca Pessoal Sequencia Avaliação
+    actor leitor
+    boundary FrontExibirAutor
+    control "AS : Autor" as Autor
+    database DataBase
 
-== Exibir Autor ==
-leitor -> FrontExibirAutor : exibirAutor(autorId)
-FrontExibirAutor -> Autor : exibirAutor(autorId)
-Autor -> DataBase : getLeitorById(autorId)
-DataBase --> Autor : autor
-Autor --> FrontExibirAutor : autor
+    == Exibir Autor ==
+    leitor -> FrontExibirAutor : exibirAutor(autorId)
+    FrontExibirAutor -> Autor : exibirAutor(autorId)
+    Autor -> DataBase : getLeitorById(autorId)
+    DataBase --> Autor : autor
+    Autor --> FrontExibirAutor : autor
 
-== Avaliar Autor ==
-leitor -> FrontExibirAutor : avaliarAutor(autorId, leitorId, nota)
-FrontExibirAutor -> Autor : avaliarAutor(autorId, leitorId, nota)
-Autor -> DataBase : addAvaliacao(autorId, leitorId, nota)
-Autor -> DataBase : getAllNotas(autorId)
-DataBase --> Autor : notas
-Autor -> Autor : mediaAvaliacao(notas)
-Autor --> FrontExibirAutor : media notas
+    == Avaliar Autor ==
+    leitor -> FrontExibirAutor : avaliarAutor(autorId, leitorId, nota)
+    FrontExibirAutor -> Autor : avaliarAutor(autorId, leitorId, nota)
+    Autor -> DataBase : addAvaliacao(autorId, leitorId, nota)
+    Autor -> DataBase : getAllNotas(autorId)
+    DataBase --> Autor : notas
+    Autor -> Autor : mediaAvaliacao(notas)
+    Autor --> FrontExibirAutor : media notas
 @enduml

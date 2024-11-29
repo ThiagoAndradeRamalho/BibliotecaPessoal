@@ -1,18 +1,18 @@
-@startuml
-actor leitor
-boundary FrontExibirAutor
-entity Autor
-database DataBase
+@startuml Biblioteca Pessoal Sequencia Seguir Autor
+    actor leitor
+    boundary FrontExibirAutor
+    entity Autor
+    database DataBase
 
-== Exibir Autor ==
-leitor -> FrontExibirAutor : exibirAutor(autorId)
-FrontExibirAutor -> Autor : exibirAutor(autorId)
-Autor -> DataBase : getLeitorById(autorId)
-DataBase --> Autor : :autor
-Autor --> FrontExibirAutor : autor
+    == Exibir Autor ==
+    leitor -> FrontExibirAutor : exibirAutor(autorId)
+    FrontExibirAutor -> Autor : exibirAutor(autorId)
+    Autor -> DataBase : getLeitorById(autorId)
+    DataBase --> Autor : :autor
+    Autor --> FrontExibirAutor : autor
 
-== Seguir Autor ==
-leitor -> FrontExibirAutor : seguirAutor(autorId, leitorId)
-FrontExibirAutor -> Autor : seguirAutor(autorId, leitorId)
-Autor -> DataBase : addSeguidor(autorId, leitorId)
+    == Seguir Autor ==
+    leitor -> FrontExibirAutor : seguirAutor(autorId, leitorId)
+    FrontExibirAutor -> Autor : seguirAutor(autorId, leitorId)
+    Autor -> DataBase : addSeguidor(autorId, leitorId)
 @enduml

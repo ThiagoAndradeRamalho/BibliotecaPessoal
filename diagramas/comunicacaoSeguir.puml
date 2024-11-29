@@ -1,0 +1,23 @@
+@startuml
+package "Usuários" {
+    object Leitor
+}
+
+package "Sistemas Internos" {
+    object FrontExibirAutor
+    object "SA : Autor" as Autor
+    object DataBase
+}
+
+
+Leitor --> FrontExibirAutor : exibirAutor(autorId)
+Leitor --> FrontExibirAutor : seguirAutor(autorId, leitorId)
+FrontExibirAutor --> Autor : exibirAutor(autorId)
+FrontExibirAutor --> Autor : seguirAutor(autorId, leitorId)
+Autor --> DataBase : getLeitorById(autorId)
+Autor --> DataBase : addSeguidor(autorId, leitorId)
+DataBase --> Autor : autor
+DataBase --> Autor
+Autor --> FrontExibirAutor : autor
+Autor --> FrontExibirAutor
+@enduml
