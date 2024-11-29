@@ -31,11 +31,8 @@ model Autor {
   id                Int       @id @default(autoincrement())
   mediaAvaliacoes   Int?
   avaliacao   AvaliacaoAutor[]
-
   usuarioId     Int    @unique
-  
   usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-
   livrosCriados     Livro[]
   
 }
@@ -74,6 +71,7 @@ model AvaliacaoAutor {
 enum Tipo {
     FAVORITO
     DESEJO
+    LIDO
 }
 
 enum Categoria {
