@@ -1,71 +1,46 @@
-// src/pages/CadastroPage.js
-
-import { useState, useEffect } from 'react';
+import React from 'react';
 import Register from '../components/Register';
-import logo from '../assets/image.png';
-// import AlunoService from '../services/AlunoService';
-// import CursoService from '../services/CursoService';
+import logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
+import UserService from '../services/UsuarioService.jsx';
+import { toast, ToastContainer } from 'react-toastify'; // Ajuste aqui
 
 const RegisterPage = () => {
-    
-    const [formData, setFormData] = useState({
-        nome: '',
-        email: '',
-        cpf: '',
-        rg: '',
-        endereco: '',
-        instituicao: '',
-        curso: '',
-        senha: '',
-    });
+    const [loading, setLoading] = React.useState(false);
+    const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
-    const [cursos, setCursos] = useState([]);
-
-    const handleChange = (field, value) => {
-        setFormData({
-            ...formData,
-            [field]: value,
-        });
-    };
-
-    const onFinish = async (e) => {
-        e?.preventDefault();
-        console.log('Cadastro enviado com:', formData);
+    const handleRegister = async (formData) => {
         setLoading(true);
 
+        if (formData.senha !== formData.confirmSenha) {
+            toast.error('As senhas não coincidem!');
+            setLoading(false);
+            return;
+        }
+
         try {
-            const aluno = await AlunoService.createAluno(formData);
-            console.log('Aluno criado com sucesso:', aluno);
+            await UserService.create    (formData);
+            toast.success('Usuário registrado com sucesso!');
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
         } catch (error) {
-            console.error('Erro ao criar aluno:', error);
+            console.error('Erro ao registrar usuário:', error);
+            toast.error('Erro ao registrar usuário. Tente novamente.');
         } finally {
             setLoading(false);
         }
     };
 
-    useEffect(() => {
-        const fetchCursos = async () => {
-            try {
-                const cursosData = await CursoService.getAllCursos();
-                setCursos(cursosData); // Atualiza o estado com os cursos
-            } catch (error) {
-                console.error('Erro ao buscar cursos:', error);
-            }
-        };
-
-        fetchCursos();
-    }, []);
-
     return (
-        <Register
-            logo={logo}
-            formData={formData}
-            handleChange={handleChange}
-            loading={loading}
-            onFinish={onFinish}
-            cursos={cursos}
-        />
+        <div>
+            <Register
+                logo={logo}
+                loading={loading}
+                onFinish={handleRegister}
+            />
+            <ToastContainer /> {/* Ajuste aqui */}
+        </div>
     );
 };
 

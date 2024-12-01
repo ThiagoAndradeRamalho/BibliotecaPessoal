@@ -1,0 +1,84 @@
+@startuml
+
+entity "Usuario" as Usuario {
+  + id: Int
+  + nome: String
+  + email: String
+  + senha: String
+  + senha_salt: String
+  + resetToken: String
+  + resetTokenExpiry: DateTime
+  + createdAt: DateTime
+  + updatedAt: DateTime
+}
+
+entity "Leitor" as Leitor {
+  + id: Int
+  + usuarioId: Int
+  + createdAt: DateTime
+  + updatedAt: DateTime
+}
+
+entity "Autor" as Autor {
+  + id: Int
+  + mediaAvaliacoes: Int
+  + usuarioId: Int
+  + createdAt: DateTime
+  + updatedAt: DateTime
+}
+
+entity "Livro" as Livro {
+  + id: Int
+  + titulo: String
+  + descricao: String
+  + autorId: Int
+  + categoria: Categoria
+  + imagem: String
+  + rate: Float
+  + sinopse: String
+  + createdAt: DateTime
+  + updatedAt: DateTime
+}
+
+entity "MeuLivro" as MeuLivro {
+  + id: Int
+  + leitorId: Int
+  + livroId: Int
+  + avaliacao: Int
+  + status: Tipo
+  + createdAt: DateTime
+  + updatedAt: DateTime
+}
+
+entity "AvaliacaoAutor" as AvaliacaoAutor {
+  + id: Int
+  + leitorId: Int
+  + autorId: Int
+  + avaliacao: Int
+  + dataCriacao: DateTime
+  + createdAt: DateTime
+  + updatedAt: DateTime
+}
+
+enum "Tipo" as Tipo {
+  FAVORITO
+  DESEJO
+  LIDO
+}
+
+enum "Categoria" as Categoria {
+  Drama
+  Suspense
+  Comedia
+  Romance
+}
+
+Usuario --|> Leitor : "relacionamento 1:1"
+Usuario --|> Autor : "relacionamento 1:1"
+Leitor --|> MeuLivro : "relacionamento 1:N"
+Livro --|> MeuLivro : "relacionamento 1:N"
+Autor --|> Livro : "relacionamento 1:N"
+Leitor --|> AvaliacaoAutor : "relacionamento 1:N"
+Autor --|> AvaliacaoAutor : "relacionamento 1:N"
+
+@enduml

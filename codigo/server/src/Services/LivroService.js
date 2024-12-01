@@ -75,7 +75,7 @@ class LivroService {
     try {
       const livro = await prismaClient.livro.create({
         data: {
-          nome: data.nome,
+          titulo: data.titulo,
           autorId: data.autorId,
           categoria: data.categoria,
         },

@@ -1,157 +1,98 @@
-import { Container, Grid, Typography, Box, TextField, Button, CircularProgress, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/image.png';
-import '../styles/Register.css';
-import { useState, useEffect } from 'react';
-import InputMask from 'react-input-mask';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+/* eslint-disable react/prop-types */
+import { Container, Grid, Typography, Box, TextField, Button, CircularProgress } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import '../styles/login.css';
 
-const Register = ({ formData = {}, handleChange, cursos = [] }) => {
-    const navigate = useNavigate(); // Usando o hook useNavigate no lugar do useHistory
-    const [isLoading, setIsLoading] = useState(false); // Estado de carregamento para o envio
-    const [errorMessage, setErrorMessage] = useState(null);
+const Register = ({ logo, loading, onFinish }) => {
+    const [formData, setFormData] = useState({ nome: '', email: '', senha: '', confirmSenha: '' });
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setErrorMessage(null);  // Limpa a mensagem de erro
-
-        try {
-            // AlunoService.createAluno(formData);  // Descomente se implementar o serviço
-            navigate('/login');
-        } catch (error) {
-            console.error('Erro ao cadastrar aluno', error);
-            setErrorMessage('Erro ao realizar cadastro. Tente novamente.');
-        } finally {
-            setIsLoading(false);
-        }
+    const handleChange = (field, value) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
-    // Enquanto os dados não estiverem carregados, mostra uma tela de loading
-    if (isLoading) {
-        return <Typography>Carregando...</Typography>;
-    }
-
     return (
-        <Container maxWidth="md" className="register-container">
-            <Grid container spacing={2} style={{ height: '85vh' }}>
-                <Grid item xs={12} md={6} className="login-image-logo-container">
-                    <img src={logo} alt="Logo PUC Minas" />
+        <Container
+            maxWidth="md"
+            className="login-container"
+        >
+            <Grid container spacing={2} style={{ height: '85vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Grid item xs={12} md={6} style={{ textAlign: 'center', backgroundColor: "#ebb764", height: '100%' }}>
+                    <img
+                        style={{ width: '100%', maxWidth: '500px', maxHeight: '800px', paddingTop: '7rem' }}
+                        src={logo}
+                        alt="Logo PUC Minas"
+                    />
                 </Grid>
-                <Grid item xs={12} md={6} className="register-form" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h4" className="register-title" gutterBottom>
-                        Cadastro
-                    </Typography>
+                <Grid item xs={12} md={6} className="login-form">
+                    <Box
+                        component="form"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            onFinish(formData);
+                        }}
+                        sx={{ width: '100%', padding: '2rem' }}
+                    >
+                        <Typography variant="h4" gutterBottom className='login-title'>
+                            Registrar
+                        </Typography>
 
-                    <Box component="form" onSubmit={handleRegister} sx={{ width: '100%' }}>
-                        <Grid container spacing={1} sx={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Nome"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={formData.nome || ''}
-                                    onChange={(e) => handleChange('nome', e.target.value)}
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="E-mail"
-                                    type="email"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={formData.email || ''}
-                                    onChange={(e) => handleChange('email', e.target.value)}
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <InputMask
-                                    mask="999.999.999-99"
-                                    value={formData.cpf || ''}
-                                    onChange={(e) => handleChange('cpf', e.target.value)}
-                                >
-                                    {(inputProps) => (
-                                        <TextField
-                                            {...inputProps}
-                                            fullWidth
-                                            label="CPF"
-                                            margin="normal"
-                                            variant="outlined"
-                                            required
-                                        />
-                                    )}
-                                </InputMask>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="RG"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={formData.rg || ''}
-                                    onChange={(e) => handleChange('rg', e.target.value)}
-                                    required
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    label="Endereço"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={formData.endereco || ''}
-                                    onChange={(e) => handleChange('endereco', e.target.value)}
-                                    required
-                                />
-                            </Grid>
-
-                            {/* Novo campo de autor ou leitor */}
-                            <Grid item xs={12} sm={12}>
-                                <FormControl fullWidth margin="normal" required>
-                                    <InputLabel>Função</InputLabel>
-                                    <Select
-                                        value={formData.funcao || ''}
-                                        onChange={(e) => handleChange('funcao', e.target.value)}
-                                    >
-                                        <MenuItem value="autor">Autor</MenuItem>
-                                        <MenuItem value="leitor">Leitor</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    label="Senha"
-                                    type="password"
-                                    margin="normal"
-                                    variant="outlined"
-                                    value={formData.senha || ''}
-                                    onChange={(e) => handleChange('senha', e.target.value)}
-                                    required
-                                />
-                            </Grid>
-                        </Grid>
-                        <Box mt={2} mb={1} style={{ padding: '2rem' }}>
+                        <TextField
+                            fullWidth
+                            label="Nome"
+                            type="text"
+                            margin="normal"
+                            variant="outlined"
+                            value={formData.nome}
+                            onChange={(e) => handleChange('nome', e.target.value)}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            label="E-mail"
+                            type="email"
+                            margin="normal"
+                            variant="outlined"
+                            value={formData.email}
+                            onChange={(e) => handleChange('email', e.target.value)}
+                            required
+                            helperText={formData.email && !/\S+@\S+\.\S+/.test(formData.email) ? 'E-mail inválido' : ''} // Mantém a mensagem de erro
+                        />
+                        <TextField
+                            fullWidth
+                            label="Senha"
+                            type="password"
+                            margin="normal"
+                            variant="outlined"
+                            value={formData.senha}
+                            onChange={(e) => handleChange('senha', e.target.value)}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            label="Confirmar Senha"
+                            type="password"
+                            margin="normal"
+                            variant="outlined"
+                            value={formData.confirmSenha}
+                            onChange={(e) => handleChange('confirmSenha', e.target.value)}
+                            required
+                        />
+                        <Box mt={2} mb={1}>
                             <Button
                                 type="submit"
                                 variant="contained"
-                                color="primary"
-                                sx={{ backgroundColor: '#9e9e9e', '&:hover': { backgroundColor: '#757575' } }} 
+                                sx={{ backgroundColor: '#9e9e9e', '&:hover': { backgroundColor: '#757575' } }}
                                 fullWidth
-                                disabled={isLoading}
-                                startIcon={isLoading && <CircularProgress size={20} color="inherit" />}
+                                disabled={loading}
+                                startIcon={loading && <CircularProgress size={20} color="inherit" />}
                             >
                                 Registrar
                             </Button>
                         </Box>
-                        <Typography align="center" variant="body2" color="textSecondary" className="register-redirect-options">
-                            Já tem uma conta?
+
+                        <Typography align="center" variant="body2" color="textSecondary" className='login-redirect-options'>
+                            Já tem uma conta? <br />
                             <Link to="/login" style={{ fontWeight: 'bold', color: '#1976d2', marginLeft: 5 }}>
                                 Faça login
                             </Link>
@@ -159,17 +100,6 @@ const Register = ({ formData = {}, handleChange, cursos = [] }) => {
                     </Box>
                 </Grid>
             </Grid>
-
-            <Snackbar
-                open={errorMessage}
-                autoHideDuration={6000}
-                onClose={() => setErrorMessage(null)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            >
-                <Alert onClose={() => setErrorMessage(null)} severity="error" sx={{ width: '100%' }}>
-                    {errorMessage}
-                </Alert>
-            </Snackbar>
         </Container>
     );
 };

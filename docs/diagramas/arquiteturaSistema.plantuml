@@ -1,0 +1,43 @@
+@startuml
+package "Sistema de Biblioteca" {
+    [Frontend] as frontend
+    [Backend] as backend
+
+    frontend -down-> backend : Requisições HTTP (API)
+    backend -down-> frontend : Respostas JSON/HTML
+
+    package "Frontend" {
+        [App.jsx] as app
+        [Pages] as pages
+        [Components] as components
+        [Services] as services
+        [Styles] as styles
+        [Assets] as assets
+
+        app --> pages : Gerencia navegação
+        pages --> components : Usa componentes
+        pages --> services : Consome serviços
+        components --> assets : Usa imagens e ícones
+        styles --> app : Estiliza a aplicação
+    }
+
+    package "Backend" {
+        [Server.js] as server
+        [Controllers] as controllers
+        [Routes] as routes
+        [Services] as backend_services
+        [Database] as database
+        [Prisma] as prisma
+        [Util] as util
+
+        server --> controllers : Gerencia lógica de controle
+        controllers --> routes : Define endpoints
+        controllers --> backend_services : Chama serviços
+        backend_services --> database : Interage com banco de dados
+        database --> prisma : Gerencia esquema e consultas
+        backend_services --> util : Usa funções utilitárias
+    }
+
+    frontend --> backend : Consome API para dados
+}
+@enduml

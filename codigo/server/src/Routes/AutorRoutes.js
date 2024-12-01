@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { AutorController } from "../controllers/AutorController.js";
+import { AutorController } from "../Controllers/AutorController.js";
 
 const router = Router();
 

@@ -3,50 +3,61 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql" // Ou outro banco, como "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Usuario {
-  id       Int      @id @default(autoincrement())
-  nome     String
-  email    String   @unique
-  senha    String
-  senha_salt       String?      @db.VarChar(255)
-  resetToken       String?      @default("") @db.VarChar(255)
-  resetTokenExpiry DateTime?    @default(now())
-  leitor   Leitor?
-  autor    Autor?
+  id               Int      @id @default(autoincrement())
+  nome             String
+  email            String   @unique
+  senha            String
+  senha_salt       String?  @db.VarChar(255)
+  resetToken       String?  @default("") @db.VarChar(255)
+  resetTokenExpiry DateTime? @default(now())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  Leitor           Leitor?
+  Autor            Autor?
 }
 
 model Leitor {
-  id           Int       @id @default(autoincrement())
-  usuarioId     Int    @unique
-  usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  biblioteca   MeuLivro[]
-  avaliacao   AvaliacaoAutor[]
+  id             Int             @id @default(autoincrement())
+  usuarioId      Int             @unique
+  usuario        Usuario         @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  biblioteca     MeuLivro[]
+  avaliacao      AvaliacaoAutor[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model Autor {
-  id                Int       @id @default(autoincrement())
-  mediaAvaliacoes   Int?
-  avaliacao   AvaliacaoAutor[]
-  usuarioId     Int    @unique
-  usuario     Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  livrosCriados     Livro[]
-  
+  id             Int             @id @default(autoincrement())
+  mediaAvaliacoes Int?
+  usuarioId      Int             @unique
+  usuario        Usuario         @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  livrosCriados  Livro[]
+  avaliacao      AvaliacaoAutor[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model Livro {
-  id          Int       @id @default(autoincrement())
-  nome        String
-  autor       Autor     @relation(fields: [autorId], references: [id])
-  autorId     Int
-  dataCriacao DateTime  @default(now())
-  categoria   Categoria
-  avaliacoes  MeuLivro[]
-  mediaAvaliacoes Int?
+  id              Int          @id @default(autoincrement())
+  titulo          String
+  descricao       String?
+  autorId         Int
+  autor           Autor        @relation(fields: [autorId], references: [id])
+  categoria       Categoria
+  imagem          String?
+  rate            Float?
+  sinopse         String?
+  avaliacoes      MeuLivro[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
+
 
 model MeuLivro {
   id        Int      @id @default(autoincrement())
@@ -56,6 +67,8 @@ model MeuLivro {
   livroId   Int
   avaliacao Int?
   status    Tipo?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model AvaliacaoAutor {
@@ -66,6 +79,8 @@ model AvaliacaoAutor {
   autorId    Int
   avaliacao  Int
   dataCriacao DateTime @default(now())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 enum Tipo {
@@ -75,9 +90,8 @@ enum Tipo {
 }
 
 enum Categoria {
-    DRAMA
-    SUSPENSE
-    ACAO
-    COMEDIA
-    ROMANCE
+    Drama
+    Suspense
+    Comedia
+    Romance
 }

@@ -1,4 +1,4 @@
-import AutorService from '../services/AutorService.js';
+import AutorService from '../Services/AutorService.js';
 
 export class AutorController {
   async getAll(req, res) {

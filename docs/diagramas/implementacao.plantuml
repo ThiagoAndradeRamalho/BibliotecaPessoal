@@ -1,0 +1,38 @@
+@startuml
+
+node "Servidor Web" {
+    component "Sistema de Login" as Login
+    component "Gerenciador de Biblioteca" as Biblioteca
+    component "Sistema de Avaliação de Livros" as AvaliacaoLivros
+    component "Sistema de Seguimento de Autores" as SeguimentoAutores
+    component "Sistema de Notificações" as Notificacao
+    component "Gerenciador de Livros do Autor" as GerenciadorLivros
+}
+
+node "Banco de Dados" {
+    database "Banco de Dados Relacional" as DB
+}
+
+node "Cliente" {
+    actor Usuario
+    actor Leitor
+    actor Autor
+    actor Notificador
+}
+
+Usuario --> Login : Acessa para autenticação
+Leitor --> Biblioteca : Interage com livros
+Leitor --> AvaliacaoLivros : Avalia livros e autores
+Leitor --> SeguimentoAutores : Segue autores
+Autor --> GerenciadorLivros : Gerencia seus livros
+GerenciadorLivros --> Notificacao : Envia alertas para seguidores
+Notificacao --> Leitor : Notifica sobre novos livros
+
+Login --> DB : Consulta credenciais
+Biblioteca --> DB : Armazena dados de livros e usuários
+AvaliacaoLivros --> DB : Armazena avaliações
+SeguimentoAutores --> DB : Armazena dados de seguimento
+GerenciadorLivros --> DB : Gerencia dados dos livros
+Notificacao --> DB : Registra notificações
+
+@enduml
