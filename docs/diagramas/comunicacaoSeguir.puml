@@ -1,4 +1,4 @@
-@startuml
+@startuml Biblioteca Pessoal Sequencia Seguir Autor
 package "Usuários" {
     object Leitor
 }
@@ -10,14 +10,13 @@ package "Sistemas Internos" {
 }
 
 
-Leitor --> FrontExibirAutor : exibirAutor(autorId)
-Leitor --> FrontExibirAutor : seguirAutor(autorId, leitorId)
-FrontExibirAutor --> Autor : exibirAutor(autorId)
-FrontExibirAutor --> Autor : seguirAutor(autorId, leitorId)
-Autor --> DataBase : getLeitorById(autorId)
-Autor --> DataBase : addSeguidor(autorId, leitorId)
-DataBase --> Autor : autor
+Leitor --> FrontExibirAutor : 1.1 exibirAutor(autorId)
+Leitor --> FrontExibirAutor : 2.1 seguirAutor(autorId, leitorId)
+FrontExibirAutor --> Autor : 1.2 exibirAutor(autorId)
+FrontExibirAutor --> Autor : 2.2 seguirAutor(autorId, leitorId)
+Autor --> DataBase : 1.3 getLeitorById(autorId)
+Autor --> DataBase : 2.3 addSeguidor(autorId, leitorId)
+DataBase --> Autor : 1.4 autor
 DataBase --> Autor
-Autor --> FrontExibirAutor : autor
-Autor --> FrontExibirAutor
+Autor --> FrontExibirAutor : 1.5 autor
 @enduml

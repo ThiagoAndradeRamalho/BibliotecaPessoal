@@ -1,0 +1,20 @@
+@startuml Biblioteca Pessoal Comunicacao Notificar Leitor
+package "Usuário" {
+    object Autor
+}
+
+package "Sistemas Internos" {
+    object FrontCriarLivro
+    object "AS : Autor" as a
+    object DataBase
+    object Notificador
+}
+
+Autor --> FrontCriarLivro : 1.1 criarLivro(dados)
+FrontCriarLivro --> a : 1.2 createLivro(dados)
+a --> DataBase : 1.3 createLivro(dados)
+DataBase --> a : 1.4 leitores seguidores
+a --> Notificador : 2.0 notificar(leitorId)
+
+
+@enduml
