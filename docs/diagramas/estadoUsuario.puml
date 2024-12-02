@@ -1,0 +1,16 @@
+@startuml Usuario
+[*] --> Deslogado : "Acessar sistema"
+
+Deslogado --> Logando : "Inserir credenciais"
+Logando --> Logado : "Autenticação bem-sucedida"
+Logando --> Deslogado : "Autenticação falhou"
+
+Logado --> GerenciandoBiblioteca : "Acessar biblioteca"
+Logado --> AvaliandoLivro : "Avaliar livro"
+Logado --> AvaliandoAutor : "Avaliar autor"
+Logado --> Deslogado : "Sair do sistema"
+
+GerenciandoBiblioteca --> [*] : "Concluir gestão"
+AvaliandoLivro --> [*] : "Concluir avaliação"
+AvaliandoAutor --> [*] : "Concluir avaliação"
+@enduml

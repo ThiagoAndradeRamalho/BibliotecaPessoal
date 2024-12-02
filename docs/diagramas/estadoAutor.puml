@@ -1,0 +1,9 @@
+@startuml Autor
+[*] --> NãoSeguido
+NãoSeguido --> Seguido : "Seguir autor"
+Seguido --> NãoSeguido : "Deixar de seguir"
+NãoSeguido --> Avaliado : "Avaliar autor"
+Avaliado --> NãoSeguido : "Remover avaliação"
+Avaliado --> Seguido : "Seguir autor"
+Seguido --> Avaliado : "Avaliar autor"
+@enduml

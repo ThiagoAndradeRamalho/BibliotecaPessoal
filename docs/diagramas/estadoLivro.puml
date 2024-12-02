@@ -1,0 +1,10 @@
+@startuml Livro
+[*] --> Disponível
+Disponível --> Avaliado : "Avaliar livro"
+Disponível --> Marcado : "Marcar livro"
+Marcado --> Disponível : "Desmarcar livro"
+Avaliado --> Disponível : "Remover avaliação"
+Avaliado --> Marcado : "Marcar livro"
+Marcado --> Notificado : "Notificar livro"
+Notificado --> Disponível : "Concluir notificação"
+@enduml
