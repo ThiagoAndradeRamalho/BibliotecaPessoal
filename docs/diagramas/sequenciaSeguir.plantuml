@@ -1,7 +1,7 @@
 @startuml Biblioteca Pessoal Sequencia Seguir Autor
     actor leitor
     boundary FrontExibirAutor
-    entity "AS : Autor" as Autor
+    participant "AS : Autor" as Autor
     database DataBase
 
     == Exibir Autor ==
