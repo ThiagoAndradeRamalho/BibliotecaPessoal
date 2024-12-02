@@ -1,0 +1,25 @@
+@startuml BibliotecaPessoalComunicacaoAvaliarAutor
+package "Usuário" {
+    object Leitor
+}
+
+package "Sistemas Internos" {
+    object FrontExibirAutor
+    object "SA : Autor" as Autor
+    object DataBase
+}
+
+Leitor --> FrontExibirAutor : 1.1 exibirAutor(autorId)
+Leitor --> FrontExibirAutor : 2.1 avaliarAutor(autorId, leitorId)
+FrontExibirAutor --> Autor : 1.2 exibirAutor(autorId)
+FrontExibirAutor --> Autor : 2.2 avaliarAutor(autorId, leitorId)
+Autor --> DataBase : 1.3 getLeitorById(autorId)
+Autor --> DataBase : 2.3 addAvalicao(autorId, leitorId)
+Autor --> DataBase : 2.4 getAllNotas(autorId)
+Autor --> Autor : 2.6 mediaAvalicao(notas)
+DataBase --> Autor : 1.4 autor
+DataBase --> Autor : 2.5 notas
+Autor --> FrontExibirAutor : 2.7 media notas
+Autor --> FrontExibirAutor : 1.5 autor
+
+@enduml

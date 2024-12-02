@@ -1,17 +1,17 @@
 @startuml Biblioteca Pessoal Sequencia Notifição
     actor autor
     boundary FrontCriarLivro
-    control "AS : Autor" as Autor
+    participant "AS : Autor" as Autor
     database DataBase
     actor notificador
 
-    == Criar Livro ==
+    == Gerenciar Livro (Criar) ==
     autor -> FrontCriarLivro : criarLivro(dados)
     FrontCriarLivro -> Autor : createLivro(dados)
     Autor -> DataBase : createLivro(dados)
     DataBase --> Autor : leitores seguidores
 
-    == Notificar Seguidores ==
+    == Notificar Livro ==
     loop para cada leitor seguidor
         Autor -> notificador : notificar(leitorId)
     end
