@@ -33,28 +33,27 @@ class AutorService {
   }
 
   async createAutor(data) {
+    console.log("chamando")
     try {
-        
-      const usuarioExists = await prismaClient.usuario.findUnique({
-        where: { id: data.usuarioId },
+      const autorExists = await prismaClient.autor.findUnique({
+        where: { usuario: data.usuarioId },
       });
-  
-      if (!usuarioExists) {
-        throw new Error('Usuário não encontrado.');
+
+      if (autorExists) {
+        throw new Error('O usuário já é um autor.');
       }
-  
+
+      console.log(data)
       const autor = await prismaClient.autor.create({
         data: {
+          usuarioId: data.usuarioId,
           mediaAvaliacoes: data.mediaAvaliacoes || null,
-          usuario: {
-            connect: { id: data.usuarioId },
-          },
         },
       });
-  
+
       return autor;
     } catch (error) {
-      console.error('Erro ao criar autor', error.message || error);
+      console.error('Erro ao criar autor', error);
       throw new Error('Não foi possível criar o autor.');
     }
   }

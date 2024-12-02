@@ -24,13 +24,13 @@ class LivroService {
 
   async create(data) {
     try {
-      const response = await axios.post(`${API_URL}/livro`, data);
+      const response = await axios.post(`${API_URL}/livros`, data);
       return response.data;
     } catch (error) {
       console.error('Erro ao criar livro:', error);
-      throw new Error('Não foi possível criar o livro.');
+        throw new Error('Não foi possível criar o livro.');
     }
-  }
+}
 
   async update(id, data) {
     try {

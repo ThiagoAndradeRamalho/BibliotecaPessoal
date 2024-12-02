@@ -6,6 +6,8 @@ import DashBoardPage from '../pages/DashBoardPage.jsx';
 import BookPage from '../pages/BookPage.jsx';
 import AuthorProfilePage from '../pages/AuthorProfilePage.jsx'
 import CreateBookPage from '../pages/CreateBookPage.jsx'
+import LibraryPage from '../pages/LibraryPage.jsx';
+import AuthorsPage from '../pages/AuthorsPage.jsx';
 
 const AppRoutes = () => {
   return (
@@ -16,6 +18,8 @@ const AppRoutes = () => {
       <Route path="/dashboard" element={<DashBoardPage />} />
       <Route path="/book/:bookId" element={<BookPage />} />
       <Route path="/author/:authorId" element={<AuthorProfilePage />} />
+      <Route path="/library" element={<LibraryPage />} />
+      <Route path="/authors" element={<AuthorsPage />} />
     </Routes>
   );
 };

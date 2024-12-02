@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Grid, TextField, Button, Select, MenuItem, Typography, Card, CardContent } from '@mui/material';
 import Header from '../components/Header';
 import LivroService from '../services/BookService.jsx'; 
+import AutorService from '../services/AutorService.jsx';
+import UsuarioService from '../services/UsuarioService.jsx';
 
 const CreateBookPage = () => {
     const [formData, setFormData] = useState({
@@ -23,22 +25,25 @@ const CreateBookPage = () => {
     };
 
     const handleSubmit = async () => {
-        const bookData = {
-            titulo: formData.titulo,
-            descricao: formData.descricao,
-            categoria: formData.categoria,
-            imagem: formData.imagem, 
-        };
-        console.log(bookData);
-
+        const usuarioId = 1; 
+        
         setLoading(true);
         setError(null);
-
+    
         try {
-
-            await LivroService.create (formData);
-            alert('Livro criado com sucesso!');
+            await AutorService.create({usuarioId});
+    
+            const bookData = {
+                titulo: formData.titulo,
+                descricao: formData.descricao,
+                categoria: formData.categoria,
+                imagem: formData.imagem,
+                autorId: usuarioId, 
+            };
             
+            await LivroService.create(bookData);
+            alert('Livro criado com sucesso!');
+    
             setFormData({
                 titulo: '',
                 descricao: '',
@@ -46,7 +51,8 @@ const CreateBookPage = () => {
                 imagem: '',
             });
         } catch (error) {
-            setError('Erro ao criar o livro. Tente novamente.');
+            setError('Erro ao criar o autor ou o livro. Tente novamente.');
+            console.error(error);
         } finally {
             setLoading(false);
         }

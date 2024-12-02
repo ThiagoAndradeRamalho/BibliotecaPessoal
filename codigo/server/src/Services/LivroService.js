@@ -73,21 +73,22 @@ class LivroService {
 
   async createLivro(data) {
     try {
-      const livro = await prismaClient.livro.create({
-        data: {
-          titulo: data.titulo,
-          descricao: data.descricao,
-          autor: data.auto,
-          categoria: data.categoria, 
-          imagem: data.imagem,  
-        },
-      });
-      return livro;
+        console.log(data)
+        const livro = await prismaClient.livro.create({
+            data: {
+                titulo: data.titulo,
+                descricao: data.descricao,
+                categoria: data.categoria,
+                imagem: data.imagem,
+                autorId: data.autorId, 
+            },
+        });
+        return livro;
     } catch (error) {
-      console.error('Erro ao criar livro', error);
-      throw new Error('Não foi possível criar o livro.');
+        console.error('Erro ao criar livro:', error);
+        throw new Error('Não foi possível criar o livro.');
     }
-  }
+}
   
   async updateLivro(id, data) {
 

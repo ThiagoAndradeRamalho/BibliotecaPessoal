@@ -3,7 +3,7 @@ import Register from '../components/Register';
 import logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../services/UsuarioService.jsx';
-import { toast, ToastContainer } from 'react-toastify'; // Ajuste aqui
+import { toast, ToastContainer } from 'react-toastify'; 
 
 const RegisterPage = () => {
     const [loading, setLoading] = React.useState(false);

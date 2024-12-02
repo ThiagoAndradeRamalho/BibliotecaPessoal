@@ -4,8 +4,8 @@ CREATE TABLE `Usuario` (
     `nome` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `senha` VARCHAR(191) NOT NULL,
-    `senha_salt` VARCHAR(255) NULL,
-    `resetToken` VARCHAR(255) NULL DEFAULT '',
+    `senha_salt` VARCHAR(191) NULL,
+    `resetToken` VARCHAR(191) NULL DEFAULT '',
     `resetTokenExpiry` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -16,24 +16,20 @@ CREATE TABLE `Usuario` (
 
 -- CreateTable
 CREATE TABLE `Leitor` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `usuarioId` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Leitor_usuarioId_key`(`usuarioId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Autor` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL,
     `mediaAvaliacoes` INTEGER NULL,
-    `usuarioId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Autor_usuarioId_key`(`usuarioId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -80,10 +76,10 @@ CREATE TABLE `AvaliacaoAutor` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Leitor` ADD CONSTRAINT `Leitor_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Leitor` ADD CONSTRAINT `Leitor_id_fkey` FOREIGN KEY (`id`) REFERENCES `Usuario`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Autor` ADD CONSTRAINT `Autor_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Autor` ADD CONSTRAINT `Autor_id_fkey` FOREIGN KEY (`id`) REFERENCES `Usuario`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Livro` ADD CONSTRAINT `Livro_autorId_fkey` FOREIGN KEY (`autorId`) REFERENCES `Autor`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -10,7 +10,7 @@ const DashboardPage = () => {
 
     const fetchLivros = async () => {
         try {
-            const response = await fetch('http://localhost:5000/livros');
+            const response = await fetch('http://localhost:5000/livro');
             if (!response.ok) {
                 throw new Error('Erro ao buscar livros');
             }

@@ -33,7 +33,7 @@ class UsuarioService {
       throw new Error('Falha ao excluir usuário');
     }
   }
-
+  
 }
 
 export default new UsuarioService();

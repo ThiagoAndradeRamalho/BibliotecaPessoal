@@ -1,4 +1,4 @@
-import LivroService from '../services/LivroService.js';
+import LivroService from '../Services/LivroService.js'
 
 export class LivroController {
   async getAll(req, res) {

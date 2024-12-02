@@ -34,7 +34,7 @@ export class UsuarioController {
     } catch (error) {
       res.status(400).json({ message: 'Erro ao criar usuário.', error: error.message });
     }
-  }
+  } 
 
   async update(req, res) {
     try {

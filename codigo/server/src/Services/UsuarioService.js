@@ -26,23 +26,27 @@ class UsuarioService {
 
   async createUsuario(data) {
     try {
-
       const { hash, salt } = Util.encryptPassword(data.senha);
-
-      const usuario = await prismaClient.Usuario.create({
+  
+      const usuario = await prismaClient.usuario.create({
         data: {
           nome: data.nome,
           email: data.email,
           senha: hash,
           senha_salt: salt,
+          Leitor: { 
+            create: {} 
+          }
         },
       });
+  
       return usuario;
     } catch (error) {
       console.error('Erro ao criar usuário', error);
       throw new Error('Não foi possível criar o usuário.');
     }
   }
+  
 
   async updateUsuario(id, data) {
     const usuarioExistente = await this.getUsuarioById(id);
@@ -99,6 +103,24 @@ class UsuarioService {
       throw new Error('Não foi possível resetar a senha.');
     }
   }
+
+  async getId(criterio) {
+    try {
+      const usuario = await prismaClient.usuario.findUnique({
+        where: { id: criterio }, 
+      });
+  
+      if (!usuario) {
+        throw new Error('Usuário não encontrado');
+      }
+
+      return usuario.id;
+    } catch (error) {
+      console.error('Erro ao buscar o id do usuário', error);
+      throw new Error('Não foi possível obter o id do usuário.');
+    }
+  }
+  
 }
 
 export default new UsuarioService();

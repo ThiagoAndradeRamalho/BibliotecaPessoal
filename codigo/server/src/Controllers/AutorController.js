@@ -26,7 +26,7 @@ export class AutorController {
     }
   }
 
-  async create(req, res) {
+  async create(req, res) {  
     try {
       const data = req.body;
       const autor = await AutorService.createAutor(data);
@@ -68,4 +68,5 @@ export class AutorController {
       res.status(400).json({ message: 'Erro ao deletar autor.' });
     }
   }
+
 }
