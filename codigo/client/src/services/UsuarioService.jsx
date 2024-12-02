@@ -5,7 +5,7 @@ class UsuarioService {
 
   async create(userData) {
     try {
-      console.log(API_URL); // Verifique se a URL está sendo impressa corretamente
+      console.log(API_URL); 
       const response = await axios.post(`${API_URL}/usuario`, userData);
       return response.data;
     } catch (error) {

@@ -100,7 +100,7 @@ const Register = ({ logo, loading, onFinish }) => {
                     </Box>
                 </Grid>
             </Grid>
-        </Container>
+        </Container>    
     );
 };
 

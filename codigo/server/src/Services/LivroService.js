@@ -62,7 +62,7 @@ class LivroService {
 
         await prismaClient.livro.update({
           where: { id: livro.id },
-          data: { mediaAvaliacoes: media || 0 }, // Defina 0 para livros sem avaliação
+          data: { mediaAvaliacoes: media || 0 }, 
         });
       }
     } catch (error) {
@@ -76,8 +76,10 @@ class LivroService {
       const livro = await prismaClient.livro.create({
         data: {
           titulo: data.titulo,
-          autorId: data.autorId,
-          categoria: data.categoria,
+          descricao: data.descricao,
+          autor: data.auto,
+          categoria: data.categoria, 
+          imagem: data.imagem,  
         },
       });
       return livro;
@@ -86,7 +88,7 @@ class LivroService {
       throw new Error('Não foi possível criar o livro.');
     }
   }
-
+  
   async updateLivro(id, data) {
 
     const l = await this.getLivroById(id)
